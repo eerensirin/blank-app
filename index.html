@@ -6,42 +6,61 @@
   <title>Click2Connect Widget</title>
   <meta name="robots" content="noindex" />
   <style>
-    /* Tam ekran arka plan */
-    html, body { height: 100%; }
-    body {
+    html, body {
+      height: 100%;
       margin: 0;
-      background: #000 url("./background.jpg") no-repeat center center fixed;
-      background-size: cover;
-      /* Widget ekranın sağ-altında kalsın diye gerekli değil ama faydalı */
-      position: relative;
+      padding: 0;
       overflow: hidden;
     }
-    /* İsteğe bağlı hafif karartma */
+
+    /* Blur arka plan efekti */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url("./background.jpg") center/cover no-repeat;
+      filter: blur(30px) brightness(0.6);
+      transform: scale(1.1);
+      z-index: -1;
+    }
+
+    /* Asıl görsel */
+    body {
+      background: url("./background.jpg") center/contain no-repeat;
+      background-color: #000;
+    }
+
+    /* Hafif karartma katmanı */
     .overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.15);
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.15);
       pointer-events: none;
     }
-    /* Gerekirse başka içerik eklemek için bir köşe alanı */
-    #widget-root { position: fixed; right: 24px; bottom: 24px; z-index: 9999; }
+
+    /* Widget köşesi */
+    #widget-root {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 9999;
+    }
   </style>
 </head>
 <body>
   <div class="overlay"></div>
   <div id="widget-root"></div>
 
-  <!-- Widget script -->
-  <script type="text/javascript" src="//presales.callcenterstudio.com/click2connects/click2connect.js?widget_key=ahRzfm11c3RlcmktaGl6bWV0bGVyaXIhCxIUQ2xpY2syQ29ubmVjdFBhY2thZ2UYgICy35GmgQsMogEdcHJlc2FsZXMuY2FsbGNlbnRlcnN0dWRpby5jb20"></script>
+  <!-- Click2Connect Widget Script -->
+  <script type="text/javascript" src="//presales.callcenterstudio.com/click2connects/click2connect.js?widget_key=ahRzfm11c3RlcmktaGl6bWVyaXIhCxIUQ2xpY2syQ29ubmVjdFBhY2thZ2UYgICy35GmgQsMogEdcHJlc2FsZXMuY2FsbGNlbnRlcnN0dWRpby5jb20"></script>
 
   <!-- Güvenli başlatma -->
   <script>
-    // Script yüklenmesi biter bitmez çalıştır.
     (function startWhenReady() {
       if (typeof startWidget === "function") {
-        try { startWidget(); } catch (e) { console.error(e); }
+        try { startWidget(); } catch (e) { console.error("Widget başlatılamadı:", e); }
       } else {
-        // Script henüz hazır değilse kısa aralıklarla tekrar dene
-        setTimeout(startWhenReady, 100);
+        setTimeout(startWhenReady, 150);
       }
     })();
   </script>
